@@ -26,5 +26,7 @@ namespace BulmaAndBullaFastFood.Models
         }
     
         public virtual DbSet<CustomerContact> CustomerContactsEntities { get; set; }
+
+        public System.Data.Entity.DbSet<BulmaAndBullaFastFood.Models.items_menu> items_menu { get; set; }
     }
 }
