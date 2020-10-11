@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BulmaAndBullaFastFood.Models;
+using Microsoft.Owin.Logging;
+using System.Net.Mail;
 
 namespace BulmaAndBullaFastFood.Controllers
 {
@@ -22,7 +24,7 @@ namespace BulmaAndBullaFastFood.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -34,9 +36,9 @@ namespace BulmaAndBullaFastFood.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,7 +63,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -71,6 +72,17 @@ namespace BulmaAndBullaFastFood.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
+            }
+
+            // Require the user to have a confirmed email before they can log on.
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
+                    return View("Error");
+                }
             }
 
             // This doesn't count login failures towards account lockout
@@ -90,8 +102,7 @@ namespace BulmaAndBullaFastFood.Controllers
                     return View(model);
             }
         }
-
-        //
+  
         // GET: /Account/VerifyCode
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
@@ -116,7 +127,7 @@ namespace BulmaAndBullaFastFood.Controllers
                 return View(model);
             }
 
-            // The following code protects for brute force attacks against the two factor codes. 
+            // The following token protects for brute force attacks against the two factor codes. 
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
@@ -129,7 +140,7 @@ namespace BulmaAndBullaFastFood.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Invalid token.");
                     return View(model);
             }
         }
@@ -151,38 +162,67 @@ namespace BulmaAndBullaFastFood.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = false };
                 var result = await UserManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    MailMessage m = new MailMessage(
+                        new MailAddress("technotransact@gmail.com", "Web Registration"),
+                        new MailAddress(user.Email));
+                    m.Subject = "Email confirmation";
+                    m.Body = string.Format("Dear {0}" +
+                        "<br/> Thank you for your registration, please click on the" +
+                        "below link to complete your registration: <a href =\"{1}\"title =\"User Email Confirm\">{1}</a>",
+                        user.UserName, Url.Action("ConfirmEmail", "Account",
+                        new { userId = user.Id, code = user.Email }, Request.Url.Scheme));
+                    m.IsBodyHtml = true;
+                    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                    smtp.Credentials = new System.Net.NetworkCredential("technotransact@gmail.com", "techno98741");
+                    smtp.EnableSsl = true;
+                    smtp.Send(m);
+                    return RedirectToAction("ConfirmEmail", "Account");
                 }
-                AddErrors(result);
+                else
+                {
+                    AddErrors(result);
+                }
             }
-
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
         //
         // GET: /Account/ConfirmEmail
+        [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
             {
-                return View("Error");
+                return RedirectToAction("Register", "Account");
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+
+            var user =  UserManager.FindById(userId);
+            if (user != null) {
+            
+                if(user.Email == code)
+                {
+                    user.EmailConfirmed = true;
+                    await UserManager.UpdateAsync(user);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    return RedirectToAction("ConfirmEmail", "Account");
+                }
+                else
+                {
+                    return RedirectToAction("ConfirmEmail", "Account");
+                }
+            }
+            else
+            {
+                ViewBag.errorMessage = "Oops. Something went wrong.";
+                return RedirectToAction("Error", "Shared");
+            }
         }
 
         //
@@ -211,8 +251,8 @@ namespace BulmaAndBullaFastFood.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
+                // string token = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, token = token }, protocol: Request.Url.Scheme);		
                 // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                 // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -314,7 +354,7 @@ namespace BulmaAndBullaFastFood.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //

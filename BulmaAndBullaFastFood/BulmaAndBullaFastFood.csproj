@@ -200,19 +200,11 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\aspnet_BulmaAndBullaFastFood_20201005061739.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="App_Data\aspnet_BulmaAndBullaFastFood_20201005061739_log.ldf">
-      <DependentUpon>aspnet_BulmaAndBullaFastFood_20201005061739.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="App_Data\restaurant_db.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="App_Data\restaurant_db_log.ldf">
       <DependentUpon>restaurant_db.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\about_person_1.jpg" />
     <Content Include="Images\about_person_2.jpg" />
