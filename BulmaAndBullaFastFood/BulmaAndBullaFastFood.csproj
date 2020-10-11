@@ -195,6 +195,24 @@
       <DependentUpon>CustomerContacts.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ItemsMenu.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ItemsMenu.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ItemsMenu.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ItemsMenu.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ItemsMenu.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ItemsMenu.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\items_menu.cs">
+      <DependentUpon>ItemsMenu.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -236,6 +254,16 @@
       <DependentUpon>CustomerContacts.edmx</DependentUpon>
       <LastGenOutput>CustomerContacts.cs</LastGenOutput>
     </Content>
+    <Content Include="Models\ItemsMenu.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ItemsMenu.edmx</DependentUpon>
+      <LastGenOutput>ItemsMenu.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ItemsMenu.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ItemsMenu.edmx</DependentUpon>
+      <LastGenOutput>ItemsMenu.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -265,6 +293,13 @@
     </EntityDeploy>
     <Content Include="Models\CustomerContacts.edmx.diagram">
       <DependentUpon>CustomerContacts.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ItemsMenu.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ItemsMenu.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ItemsMenu.edmx.diagram">
+      <DependentUpon>ItemsMenu.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.5.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.5.1.js" />
@@ -392,6 +427,7 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\CustomerContact\Contact.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
