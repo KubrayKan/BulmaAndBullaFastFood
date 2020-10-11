@@ -3001,8 +3001,8 @@ fieldset:disabled a.btn {
 }
 
 .btn-light:focus, .btn-light.focus {
-  color: #fff;
-  background-color: #0f0f0f;
+  color: black;
+  background-color: lightgrey;
   border-color: #090808;
   -webkit-box-shadow: 0 0 0 0.2rem rgba(67, 67, 67, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(67, 67, 67, 0.5);
@@ -3016,9 +3016,9 @@ fieldset:disabled a.btn {
 
 .btn-light:not(:disabled):not(.disabled):active, .btn-light:not(:disabled):not(.disabled).active,
 .show > .btn-light.dropdown-toggle {
-  color: #fff;
-  background-color: #090808;
-  border-color: #020202;
+  color: black;
+  background-color: darkgray;
+  border-color: #090808;
 }
 
 .btn-light:not(:disabled):not(.disabled):active:focus, .btn-light:not(:disabled):not(.disabled).active:focus,
