@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BulmaAndBullaFastFood.Models;
+using System.Net;
 
 namespace BulmaAndBullaFastFood.Controllers
 {
@@ -97,6 +98,46 @@ namespace BulmaAndBullaFastFood.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        // POST: /Users/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var user = await _userManager.FindByIdAsync(id);
+                var logins = user.Logins;
+                var rolesForUser = await _userManager.GetRolesAsync(id);
+
+                    foreach (var login in logins.ToList())
+                    {
+                        await _userManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                    }
+
+                    if (rolesForUser.Count() > 0)
+                    {
+                        foreach (var item in rolesForUser.ToList())
+                        {
+                            // item should be the name of the role
+                            var result = await _userManager.RemoveFromRoleAsync(user.Id, item);
+                        }
+                    }
+
+                    await _userManager.DeleteAsync(user);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         //

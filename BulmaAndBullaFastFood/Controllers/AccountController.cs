@@ -171,17 +171,18 @@ namespace BulmaAndBullaFastFood.Controllers
                         new MailAddress("technotransact@gmail.com", "Web Registration"),
                         new MailAddress(user.Email));
                     m.Subject = "Email confirmation";
-                    m.Body = string.Format("Dear {0}" +
-                        "<br/> Thank you for your registration, please click on the" +
-                        "below link to complete your registration: <a href =\"{1}\"title =\"User Email Confirm\">{1}</a>",
-                        user.UserName, Url.Action("ConfirmEmail", "Account",
-                        new { userId = user.Id, code = user.Email }, Request.Url.Scheme));
+                    m.Body = $"Dear {user.UserName}" +
+                        "<br/> Thank you for your registration. Your profile information:<br/>" +
+                        $"Username: {user.UserName}<br/>" +
+                        $"Password: {model.Password}<br/> " +
+                        $"Please click on the link below to complete your registration: <a href =\"{1}\"title =\"User Email Confirm\">" +
+                        $"{Url.Action("ConfirmEmail", "Account",new { userId = user.Id, code = user.Email }, Request.Url.Scheme)}</a>";
                     m.IsBodyHtml = true;
                     SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                     smtp.Credentials = new System.Net.NetworkCredential("technotransact@gmail.com", "techno98741");
                     smtp.EnableSsl = true;
                     smtp.Send(m);
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -192,7 +193,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
@@ -211,17 +211,18 @@ namespace BulmaAndBullaFastFood.Controllers
                     user.EmailConfirmed = true;
                     await UserManager.UpdateAsync(user);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    return View("ConfirmEmail");
                 }
                 else
                 {
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    ViewBag.errorMessage = "Oops. Wrong Email.";
+                    return View("Error");
                 }
             }
             else
             {
-                ViewBag.errorMessage = "Oops. Something went wrong.";
-                return RedirectToAction("Error", "Shared");
+                ViewBag.errorMessage = "Oops. User does not exist.";
+                return View("Error");
             }
         }
 
