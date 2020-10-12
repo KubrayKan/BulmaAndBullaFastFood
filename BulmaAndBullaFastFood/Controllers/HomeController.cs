@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BulmaAndBullaFastFood.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -25,6 +26,14 @@ namespace BulmaAndBullaFastFood.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Menu()
+        {
+            using(ItemsMenu itemsMenu = new ItemsMenu())
+            {
+                return View(itemsMenu.items_menu.ToList());
+            }
         }
     }
 }
