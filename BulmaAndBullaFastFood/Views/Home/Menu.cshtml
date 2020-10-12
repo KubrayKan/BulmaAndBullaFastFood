@@ -18,7 +18,7 @@
         <th>
             @Html.DisplayNameFor(model => model.price)
         </th>
-        <th>
+        <th style="width:25%; text-align:center;">
             Nutrition Value
         </th>
     </tr>
@@ -35,7 +35,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.price)
             </td>
-            <td>
+            <td style="width:25%; text-align:center;">
                 Calories: @Html.DisplayFor(modelItem => item.calories)<br>
                 Fat: @Html.DisplayFor(modelItem => item.fat)<br>
                 Proteins: @Html.DisplayFor(modelItem => item.proteins)<br>
