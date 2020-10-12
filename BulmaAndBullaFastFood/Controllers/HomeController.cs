@@ -28,12 +28,5 @@ namespace BulmaAndBullaFastFood.Controllers
             return View();
         }
 
-        public ActionResult Menu()
-        {
-            using(ItemsMenu itemsMenu = new ItemsMenu())
-            {
-                return View(itemsMenu.items_menu.ToList());
-            }
-        }
     }
 }
