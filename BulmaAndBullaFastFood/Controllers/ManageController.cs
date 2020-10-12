@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using BulmaAndBullaFastFood.Models;
+using System.Net;
 
 namespace BulmaAndBullaFastFood.Controllers
 {
@@ -97,6 +98,25 @@ namespace BulmaAndBullaFastFood.Controllers
                 message = ManageMessageId.Error;
             }
             return RedirectToAction("ManageLogins", new { Message = message });
+        }
+
+        // POST: /Users/Delete/5
+        [HttpPost]
+        public async Task<ActionResult> Delete(string id)
+        {
+            var user = await UserManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                IdentityResult result = await UserManager.DeleteAsync(user);
+                if (result.Succeeded)
+                    return RedirectToAction("Index", "Home");
+                else
+                    AddErrors(result);
+            }
+            else
+                ModelState.AddModelError("", "User Not Found");
+
+            return RedirectToAction("Index", "Home");
         }
 
         //

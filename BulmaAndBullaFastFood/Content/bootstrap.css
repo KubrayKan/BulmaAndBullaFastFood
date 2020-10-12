@@ -3003,7 +3003,7 @@ fieldset:disabled a.btn {
 .btn-light:focus, .btn-light.focus {
   color: black;
   background-color: lightgrey;
-  border-color: #090808;
+  border-color: #000;
   -webkit-box-shadow: 0 0 0 0.2rem rgba(67, 67, 67, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(67, 67, 67, 0.5);
 }

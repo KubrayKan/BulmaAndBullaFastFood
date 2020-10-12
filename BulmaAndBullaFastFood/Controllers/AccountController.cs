@@ -74,19 +74,7 @@ namespace BulmaAndBullaFastFood.Controllers
                 return View(model);
             }
 
-            // Require the user to have a confirmed email before they can log on.
             var user = await UserManager.FindByNameAsync(model.Email);
-            if (user != null)
-            {
-                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
-                {
-                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
-                    return View("Error");
-                }
-            }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -100,7 +88,7 @@ namespace BulmaAndBullaFastFood.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
-            }
+                }
         }
   
         // GET: /Account/VerifyCode
@@ -115,7 +103,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
-        //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
@@ -153,7 +140,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return View();
         }
 
-        //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -171,17 +157,16 @@ namespace BulmaAndBullaFastFood.Controllers
                         new MailAddress("technotransact@gmail.com", "Web Registration"),
                         new MailAddress(user.Email));
                     m.Subject = "Email confirmation";
-                    m.Body = string.Format("Dear {0}" +
-                        "<br/> Thank you for your registration, please click on the" +
-                        "below link to complete your registration: <a href =\"{1}\"title =\"User Email Confirm\">{1}</a>",
-                        user.UserName, Url.Action("ConfirmEmail", "Account",
-                        new { userId = user.Id, code = user.Email }, Request.Url.Scheme));
+                    m.Body = $"Dear {user.UserName}" +
+                        "<br/> Thank you for your registration. Your profile information:<br/>" +
+                        $"Username: {user.UserName}<br/>" +
+                        $"Password: {model.Password}<br/>";
                     m.IsBodyHtml = true;
                     SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                     smtp.Credentials = new System.Net.NetworkCredential("technotransact@gmail.com", "techno98741");
                     smtp.EnableSsl = true;
                     smtp.Send(m);
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -192,7 +177,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return View(model);
         }
 
-        //
         // GET: /Account/ConfirmEmail
         [HttpGet]
         [AllowAnonymous]
@@ -211,17 +195,18 @@ namespace BulmaAndBullaFastFood.Controllers
                     user.EmailConfirmed = true;
                     await UserManager.UpdateAsync(user);
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    return View("ConfirmEmail");
                 }
                 else
                 {
-                    return RedirectToAction("ConfirmEmail", "Account");
+                    ViewBag.errorMessage = "Oops. Wrong Email.";
+                    return View("Error");
                 }
             }
             else
             {
-                ViewBag.errorMessage = "Oops. Something went wrong.";
-                return RedirectToAction("Error", "Shared");
+                ViewBag.errorMessage = "Oops. User does not exist.";
+                return View("Error");
             }
         }
 
