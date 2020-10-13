@@ -75,5 +75,50 @@ namespace BulmaAndBullaFastFood.Controllers
             List<MenuItem> itemsInCart = (List<MenuItem>)Session["Cart"];
             return View(itemsInCart);
         }
+
+        public ActionResult DeleteFromCart(MenuItem item)
+        {
+            List<MenuItem> itemsInCart = (List<MenuItem>)Session["Cart"];
+            System.Diagnostics.Debug.WriteLine(itemsInCart.Remove(item));
+            Session["Cart"] = itemsInCart;
+            return RedirectToAction("Cart");
+        }
+
+        // GET: CustomerContact/Payment
+        [HttpGet]
+        public ActionResult Payment()
+        {
+            List<MenuItem> itemsInCart = (List<MenuItem>)Session["Cart"];
+            if (itemsInCart == null || itemsInCart.Count() == 0)
+            {
+                TempData["message"] = "Empty";
+                return RedirectToAction("Cart");
+            }
+
+            decimal subTotal = 0m;
+            
+            foreach(MenuItem item in itemsInCart)
+            {
+                subTotal += item.price;
+            }
+
+            decimal taxes = subTotal * 15 / 100;
+            decimal delivery = subTotal * 15 / 100;
+            
+            if(subTotal > 25m)
+            {
+                delivery = 0m;
+                System.Diagnostics.Debug.WriteLine(delivery);
+            }
+
+            decimal total = subTotal + taxes + delivery;
+
+            Session["subtotal"] = Math.Round(subTotal, 2);
+            Session["taxes"] = Math.Round(taxes, 2);
+            Session["delivery"] = Math.Round(delivery, 2);
+            Session["total"] = Math.Round(total, 2);
+
+            return View(itemsInCart);
+        }
     }
 }

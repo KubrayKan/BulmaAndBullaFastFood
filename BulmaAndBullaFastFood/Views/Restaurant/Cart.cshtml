@@ -4,6 +4,11 @@
     ViewBag.Title = "Cart";
 }
 
+@if ((string)TempData["message"] == "Empty")
+{
+    <h5 style="color:#FF0000;">Your Cart is empty! You must select some items in order to proceed to payment.<br></h5>
+}
+
 <h2>Cart</h2>
 
 <table class="table">
@@ -35,11 +40,14 @@
                     @Html.DisplayFor(modelItem => item.price)
                 </td>
                 <td>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    @Html.ActionLink("Delete", "DeleteFromCart", item)
                 </td>
             </tr>
         }
     }
-    
 
 </table>
+
+<h4>
+    @Html.ActionLink("Proceed to Payment", "Payment", new { })
+</h4>

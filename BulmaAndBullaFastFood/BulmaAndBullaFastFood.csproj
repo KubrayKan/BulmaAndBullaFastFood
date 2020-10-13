@@ -390,6 +390,7 @@
     <Content Include="Views\Restaurant\Menu.cshtml" />
     <Content Include="Views\Restaurant\Shop.cshtml" />
     <Content Include="Views\Restaurant\Cart.cshtml" />
+    <Content Include="Views\Restaurant\Payment.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
