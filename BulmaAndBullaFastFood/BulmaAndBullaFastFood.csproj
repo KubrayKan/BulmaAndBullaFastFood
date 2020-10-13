@@ -386,8 +386,10 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\CustomerContact\Contact.cshtml" />
-    <Content Include="Views\CustomerContact\Menu.cshtml" />
+    <Content Include="Views\Restaurant\Contact.cshtml" />
+    <Content Include="Views\Restaurant\Menu.cshtml" />
+    <Content Include="Views\Restaurant\Shop.cshtml" />
+    <Content Include="Views\Restaurant\Cart.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

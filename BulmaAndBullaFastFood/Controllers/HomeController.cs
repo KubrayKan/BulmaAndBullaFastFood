@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BulmaAndBullaFastFood.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -26,5 +27,6 @@ namespace BulmaAndBullaFastFood.Controllers
 
             return View();
         }
+
     }
 }

@@ -6,7 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="2e839093fddc4d879e0c241e4d3d6265" Name="Diagram1">
         <EntityTypeShape EntityType="restaurant_dbModel.CustomerContact" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="restaurant_dbModel.MenuItem" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="restaurant_dbModel.MenuItem" Width="1.5" PointX="5.875" PointY="0.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
