@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using MenuItem = BulmaAndBullaFastFood.Models.MenuItem;
 
 namespace BulmaAndBullaFastFood.Controllers
 {
-    public class CustomerContactController : Controller
+    public class RestaurantController : Controller
     {
         private restaurant_dbEntities db = new restaurant_dbEntities();
 
@@ -45,10 +43,10 @@ namespace BulmaAndBullaFastFood.Controllers
         {
             return View(db.MenuItems.ToList());
         }
-
+        
         public ActionResult AddToCart(MenuItem item)
         {
-            if(Session["Cart"] == null)
+            if (Session["Cart"] == null)
             {
                 System.Diagnostics.Debug.WriteLine(item.name);
                 List<MenuItem> itemsInCart = new List<MenuItem>();
@@ -62,14 +60,14 @@ namespace BulmaAndBullaFastFood.Controllers
                 Session["Cart"] = itemsInCart;
                 System.Diagnostics.Debug.WriteLine("new loop");
                 foreach (MenuItem items in itemsInCart)
-                {   
+                {
                     System.Diagnostics.Debug.WriteLine(items.description);
                 }
             }
-
+            
             return RedirectToAction("Shop");
         }
-
+        
         // GET: CustomerContact/Cart
         [HttpGet]
         public ActionResult Cart()
@@ -77,10 +75,5 @@ namespace BulmaAndBullaFastFood.Controllers
             List<MenuItem> itemsInCart = (List<MenuItem>)Session["Cart"];
             return View(itemsInCart);
         }
-
     }
-
 }
-
-
-
