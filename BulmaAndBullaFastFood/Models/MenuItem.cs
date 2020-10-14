@@ -34,5 +34,19 @@ namespace BulmaAndBullaFastFood.Models
         public string vitamin_c { get; set; }
         [Display(Name = "Iron")]
         public string iron { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null) return false;
+            MenuItem objAsPart = obj as MenuItem;
+            if (objAsPart == null) return false;
+            else return Equals(objAsPart);
+        }
+
+        public bool Equals(MenuItem other)
+        {
+            if (other == null) return false;
+            return (this.Id.Equals(other.Id));
+        }
     }
 }
