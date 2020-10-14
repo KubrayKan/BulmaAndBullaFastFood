@@ -58,10 +58,7 @@ namespace BulmaAndBullaFastFood.Controllers
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
                 : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -100,33 +97,44 @@ namespace BulmaAndBullaFastFood.Controllers
             return RedirectToAction("ManageLogins", new { Message = message });
         }
 
-        // POST: /Users/Delete/5
-        [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        [HttpGet]
+        public ActionResult DeleteAccount()
         {
-            var user = await UserManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                IdentityResult result = await UserManager.DeleteAsync(user);
-                if (result.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                else
-                    AddErrors(result);
-            }
-            else
-                ModelState.AddModelError("", "User Not Found");
-
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
-        //
+        // POST: /Users/Delete/5
+        [HttpGet]
+        public ActionResult ConfirmDelete()
+        {
+            if (ModelState.IsValid)
+            {
+                var user = UserManager.FindById(User.Identity.GetUserId());
+
+                if (user == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                UserManager.Delete(user);
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+                return View("ConfirmDelete");
+            }
+            else
+            {
+                ViewBag.errorMessage = "Sorry, couldn't delete your account.";
+                return RedirectToAction("Error", "HomeController");
+            }
+
+        }
+
         // GET: /Manage/AddPhoneNumber
         public ActionResult AddPhoneNumber()
         {
             return View();
         }
 
-        //
         // POST: /Manage/AddPhoneNumber
         [HttpPost]
         [ValidateAntiForgeryToken]

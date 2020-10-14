@@ -29,5 +29,6 @@ namespace BulmaAndBullaFastFood.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }

@@ -1,0 +1,16 @@
+﻿@using BulmaAndBullaFastFood.Controllers;
+@{
+    ViewBag.Title = "Confirm Delete";
+}
+
+<h3>@ViewBag.Title</h3>
+
+<h4>Your account has been deleted successfully.</h4>
+
+@{
+    ((ManageController)this.ViewContext.Controller).ConfirmDelete();
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

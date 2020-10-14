@@ -390,6 +390,8 @@
     <Content Include="Views\Restaurant\Menu.cshtml" />
     <Content Include="Views\Restaurant\Shop.cshtml" />
     <Content Include="Views\Restaurant\Cart.cshtml" />
+    <Content Include="Views\Manage\DeleteAccount.cshtml" />
+    <Content Include="Views\Manage\ConfirmDelete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

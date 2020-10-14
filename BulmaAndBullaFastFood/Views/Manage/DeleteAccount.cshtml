@@ -1,0 +1,19 @@
+﻿
+@{
+    ViewBag.Title = "Delete Account";
+}
+
+<div>
+    <h3>@ViewBag.Title</h3>
+    <h5>Are you sure you want to delete your account?</h5>
+    <dl class="dl-horizontal">
+        <dd>
+            @Html.ActionLink("Delete", "ConfirmDelete", routeValues: null, htmlAttributes: new { @class = "btn btn-light m-1" })
+            @Html.ActionLink("Cancel", "Manage", routeValues: null, htmlAttributes: new { @class = "btn btn-light m-1" })
+        </dd>
+    </dl>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

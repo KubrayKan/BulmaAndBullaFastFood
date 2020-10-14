@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using BulmaAndBullaFastFood.Models;
 using Microsoft.Owin.Logging;
 using System.Net.Mail;
+using System.Net;
 
 namespace BulmaAndBullaFastFood.Controllers
 {
@@ -150,7 +151,6 @@ namespace BulmaAndBullaFastFood.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = false };
                 var result = await UserManager.CreateAsync(user, model.Password);
-
                 if (result.Succeeded)
                 {
                     MailMessage m = new MailMessage(
@@ -176,6 +176,7 @@ namespace BulmaAndBullaFastFood.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         // GET: /Account/ConfirmEmail
         [HttpGet]
@@ -210,7 +211,7 @@ namespace BulmaAndBullaFastFood.Controllers
             }
         }
 
-        //
+
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
