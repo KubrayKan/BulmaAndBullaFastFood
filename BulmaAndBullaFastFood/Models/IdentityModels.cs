@@ -16,6 +16,8 @@ namespace BulmaAndBullaFastFood.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public string City { get; set; }
+        public string Gender { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

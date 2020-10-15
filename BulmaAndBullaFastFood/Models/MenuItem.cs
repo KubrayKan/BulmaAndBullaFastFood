@@ -48,5 +48,21 @@ namespace BulmaAndBullaFastFood.Models
             if (other == null) return false;
             return (this.Id.Equals(other.Id));
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1110485326;
+            hashCode = hashCode * -1521134295 + Id.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(description);
+            hashCode = hashCode * -1521134295 + price.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(calories);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fat);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(proteins);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(sugar);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(vitamin_c);
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(iron);
+            return hashCode;
+        }
     }
 }
