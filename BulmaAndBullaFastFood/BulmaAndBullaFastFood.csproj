@@ -186,27 +186,30 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CustomerContact.cs">
-      <DependentUpon>CustomerContacts.tt</DependentUpon>
+      <DependentUpon>RestaurantViewModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerContacts.Context.cs">
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MenuItem.cs">
+      <DependentUpon>RestaurantViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderHistory.cs">
+      <DependentUpon>RestaurantViewModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RestaurantViewModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CustomerContacts.Context.tt</DependentUpon>
+      <DependentUpon>RestaurantViewModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CustomerContacts.cs">
+    <Compile Include="Models\RestaurantViewModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CustomerContacts.tt</DependentUpon>
+      <DependentUpon>RestaurantViewModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RestaurantViewModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>RestaurantViewModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MenuItem.cs">
-      <DependentUpon>CustomerContacts.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -230,15 +233,15 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\image_edited.jpg" />
-    <Content Include="Models\CustomerContacts.Context.tt">
+    <Content Include="Models\RestaurantViewModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>RestaurantViewModel.edmx</DependentUpon>
-      <LastGenOutput>CustomerContacts.Context.cs</LastGenOutput>
+      <LastGenOutput>RestaurantViewModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\CustomerContacts.tt">
+    <Content Include="Models\RestaurantViewModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>RestaurantViewModel.edmx</DependentUpon>
-      <LastGenOutput>CustomerContacts.cs</LastGenOutput>
+      <LastGenOutput>RestaurantViewModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -402,6 +405,8 @@
     <Content Include="Views\Manage\DeleteAccount.cshtml" />
     <Content Include="Views\Manage\ConfirmDelete.cshtml" />
     <Content Include="Views\Restaurant\Payment.cshtml" />
+    <Content Include="Views\Restaurant\PaymentInfo.cshtml" />
+    <Content Include="Views\Restaurant\OrderComplete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

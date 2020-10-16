@@ -16,53 +16,32 @@ namespace BulmaAndBullaFastFood.Models
     public partial class MenuItem
     {
         public int Id { get; set; }
-        [Display (Name = "Name")]
+        [Required]
+        [Display(Name = "Name")]
         public string name { get; set; }
+        [Required]
         [Display(Name = "Description")]
         public string description { get; set; }
+        [Required]
         [Display(Name = "Price")]
         public decimal price { get; set; }
+        [Required]
         [Display(Name = "Calories")]
         public string calories { get; set; }
+        [Required]
         [Display(Name = "Fat")]
         public string fat { get; set; }
+        [Required]
         [Display(Name = "Proteins")]
         public string proteins { get; set; }
+        [Required]
         [Display(Name = "Sugar")]
         public string sugar { get; set; }
+        [Required]
         [Display(Name = "Vitamin C")]
         public string vitamin_c { get; set; }
+        [Required]
         [Display(Name = "Iron")]
         public string iron { get; set; }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null) return false;
-            MenuItem objAsPart = obj as MenuItem;
-            if (objAsPart == null) return false;
-            else return Equals(objAsPart);
-        }
-
-        public bool Equals(MenuItem other)
-        {
-            if (other == null) return false;
-            return (this.Id.Equals(other.Id));
-        }
-
-        public override int GetHashCode()
-        {
-            var hashCode = -1110485326;
-            hashCode = hashCode * -1521134295 + Id.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(description);
-            hashCode = hashCode * -1521134295 + price.GetHashCode();
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(calories);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(fat);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(proteins);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(sugar);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(vitamin_c);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(iron);
-            return hashCode;
-        }
     }
 }

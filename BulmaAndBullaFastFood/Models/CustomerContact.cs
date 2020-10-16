@@ -17,7 +17,7 @@ namespace BulmaAndBullaFastFood.Models
     {
         public int Id { get; set; }
         [Required]
-        [Display (Name = "First Name")]
+        [Display(Name = "First Name")]
         public string first_name { get; set; }
         [Required]
         [Display(Name = "Last Name")]

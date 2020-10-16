@@ -1,4 +1,5 @@
 ﻿using BulmaAndBullaFastFood.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace BulmaAndBullaFastFood.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            db.CustomerContactsEntities.Add(entryToCreate);
+            db.CustomerContacts.Add(entryToCreate);
             db.SaveChanges();
 
             return RedirectToAction("Contact");
@@ -37,7 +38,7 @@ namespace BulmaAndBullaFastFood.Controllers
             return View(db.MenuItems.ToList());
         }
 
-        // GET: CustomerContact/Shop
+        // GET: Restaurant/Shop
         [HttpGet]
         public ActionResult Shop()
         {
@@ -68,7 +69,7 @@ namespace BulmaAndBullaFastFood.Controllers
             return RedirectToAction("Shop");
         }
         
-        // GET: CustomerContact/Cart
+        // GET: Restaurant/Cart
         [HttpGet]
         public ActionResult Cart()
         {
@@ -84,7 +85,7 @@ namespace BulmaAndBullaFastFood.Controllers
             return RedirectToAction("Cart");
         }
 
-        // GET: CustomerContact/Payment
+        // POST: Restaurant/Payment
         [HttpGet]
         public ActionResult Payment()
         {
@@ -92,7 +93,7 @@ namespace BulmaAndBullaFastFood.Controllers
             if (itemsInCart == null || itemsInCart.Count() == 0)
             {
                 TempData["message"] = "Empty";
-                return RedirectToAction("Cart");
+                return RedirectToAction("Cart", "Restaurant");
             }
 
             decimal subTotal = 0m;
@@ -120,5 +121,37 @@ namespace BulmaAndBullaFastFood.Controllers
 
             return View(itemsInCart);
         }
+
+        public ActionResult PaymentInfo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult PaymentInfo([Bind(Exclude = "Id, user_Id, purchase_date, total_price")] OrderHistory orderEntry)
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            if (!ModelState.IsValid) {
+                return View();
+            }
+            orderEntry.user_Id = User.Identity.GetUserId();
+            orderEntry.purchase_date = DateTime.Now;
+            orderEntry.total_price = (decimal)Session["total"];
+            db.OrdersHistory.Add(orderEntry);
+            db.SaveChanges();
+            Session.Clear();
+            return RedirectToAction("OrderComplete", "Restaurant");
+        }
+
+        [HttpGet]
+        public ActionResult OrderComplete()
+        {
+            return View();
+        }
+
     }
 }

@@ -1,9 +1,5 @@
 ﻿@model IEnumerable<BulmaAndBullaFastFood.Models.MenuItem>
 
-@{
-    ViewBag.Title = "Cart";
-}
-
 @if ((string)TempData["message"] == "Empty")
 {
     <h5 style="color:#FF0000;">Your Cart is empty! You must select some items in order to proceed to payment.<br></h5>
@@ -47,7 +43,5 @@
     }
 
 </table>
-
-<h4>
-    @Html.ActionLink("Proceed to Payment", "Payment", new { })
-</h4>
+   
+ @Html.ActionLink("Proceed to Payment", "Payment", routeValues: null, htmlAttributes: new { @class = "btn btn-light m-1" })
