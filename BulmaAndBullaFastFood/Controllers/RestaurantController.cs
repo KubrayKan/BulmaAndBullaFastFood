@@ -152,5 +152,13 @@ namespace BulmaAndBullaFastFood.Controllers
             return View();
         }
 
+        public ActionResult PreviousOrders()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return View(db.OrdersHistory.ToList());
+        }
     }
 }

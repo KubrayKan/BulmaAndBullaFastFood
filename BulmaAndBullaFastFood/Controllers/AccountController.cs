@@ -107,7 +107,10 @@ namespace BulmaAndBullaFastFood.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, EmailConfirmed = false, City = model.City, Gender = model.Gender  };
+                int removeEmailIndex = model.Email.IndexOf("@");
+
+                string userName = model.Email.Substring(0, removeEmailIndex);
+                var user = new ApplicationUser { UserName = userName, Email = model.Email, City = model.City, Gender = model.Gender  };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
