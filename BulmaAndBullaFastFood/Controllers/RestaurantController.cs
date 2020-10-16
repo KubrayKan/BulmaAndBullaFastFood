@@ -147,7 +147,6 @@ namespace BulmaAndBullaFastFood.Controllers
             return RedirectToAction("OrderComplete", "Restaurant");
         }
 
-        [HttpGet]
         public ActionResult OrderComplete()
         {
             return View();

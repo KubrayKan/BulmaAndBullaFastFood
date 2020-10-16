@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<BulmaAndBullaFastFood.Models.MenuItem>
+@using System.Globalization;
 
-<h3>Menu</h3>
+<h3>Shop</h3>
 
 
 <table class="table">
@@ -13,6 +14,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.price)
+            @Html.Label($"({NumberFormatInfo.CurrentInfo.CurrencySymbol})")
         </th>
         <th style="width:25%; text-align:center;">
 
@@ -32,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.price)
             </td>
             <td style="width:25%; text-align:center;">
-                @Html.ActionLink("Add To Cart", "AddToCart", item)
+                @Html.ActionLink("Add To Cart", "AddToCart", item, htmlAttributes: new { @class = "btn btn-light m-1"})
             </td>
         </tr>
     }
