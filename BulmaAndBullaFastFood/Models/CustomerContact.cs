@@ -9,8 +9,6 @@
 
 namespace BulmaAndBullaFastFood.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class CustomerContact
@@ -24,7 +22,6 @@ namespace BulmaAndBullaFastFood.Models
         public string last_name { get; set; }
         [Required]
         [Display(Name = "Email")]
-        [EmailAddress]
         public string email { get; set; }
         [Required]
         [Display(Name = "Message")]

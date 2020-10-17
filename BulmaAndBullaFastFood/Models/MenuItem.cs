@@ -9,38 +9,27 @@
 
 namespace BulmaAndBullaFastFood.Models
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public partial class MenuItem
     {
         public int Id { get; set; }
-        [Required]
-        [Display(Name = "Name")]
+        [Display (Name = "Name")]
         public string name { get; set; }
-        [Required]
         [Display(Name = "Description")]
         public string description { get; set; }
-        [Required]
         [Display(Name = "Price")]
         public decimal price { get; set; }
-        [Required]
         [Display(Name = "Calories")]
         public string calories { get; set; }
-        [Required]
         [Display(Name = "Fat")]
         public string fat { get; set; }
-        [Required]
         [Display(Name = "Proteins")]
         public string proteins { get; set; }
-        [Required]
         [Display(Name = "Sugar")]
         public string sugar { get; set; }
-        [Required]
         [Display(Name = "Vitamin C")]
         public string vitamin_c { get; set; }
-        [Required]
         [Display(Name = "Iron")]
         public string iron { get; set; }
     }

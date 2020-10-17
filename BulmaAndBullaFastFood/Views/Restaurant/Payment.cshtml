@@ -10,11 +10,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.name)
+                    @Html.DisplayFor(modelItem => item.name) &nbsp;
                 </td>
                 <td>
-                    @Html.Label("$")
-                    @Html.DisplayFor(modelItem => item.price)
+                    $@Html.DisplayFor(modelItem => item.price)
                 </td>
             </tr>
         }
@@ -24,33 +23,28 @@
 <div>
     <br>
     <h5>
-        Subtotal: @Html.Label("$")
-        @Session["subtotal"].ToString()
+        Subtotal: $@Session["subtotal"].ToString()
     </h5>
 
     <h5>
-        Taxes: @Html.Label("$")
-        @Session["taxes"].ToString()
+        Taxes: $@Session["taxes"].ToString()
     </h5>
 
-    @if (Session["subtotal"].ToString() == "0")
+    @if (Session["delivery"].ToString() == "0")
     {
         <h5>
-            Delivery: @Html.Label("$")
-            @Session["delivery"].ToString() . We charge no delivery for orders with a subtotal higher than 25$!
+            $@Session["delivery"].ToString() . We charge no delivery for orders with a subtotal higher than 25$!
         </h5>
     }
     else
     {
         <h5>
-            Delivery: @Html.Label("$")
-            @Session["delivery"].ToString()
+            Delivery: $@Session["delivery"].ToString()
         </h5>
     }
 
     <h5>
-        Total: @Html.Label("$")
-        @Session["total"].ToString()
+        Total: $@Session["total"].ToString()
     </h5>
 
 </div>

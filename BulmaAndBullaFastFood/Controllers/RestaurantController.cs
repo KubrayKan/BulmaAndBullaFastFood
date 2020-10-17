@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -139,7 +140,26 @@ namespace BulmaAndBullaFastFood.Controllers
                 return View();
             }
             orderEntry.user_Id = User.Identity.GetUserId();
-            orderEntry.purchase_date = DateTime.Now;
+            orderEntry.purchase_date = DateTime.Now.ToShortDateString();
+            string itemList = "";
+            List<MenuItem> itemsInCart = (List<MenuItem>)Session["Cart"];
+
+            bool firstTime = true;
+
+            foreach (MenuItem itemCart in itemsInCart)
+            {
+                if (firstTime)
+                {
+                    itemList += itemCart.name;
+                    firstTime = false;
+                }
+                else
+                {
+                    itemList += ", " + itemCart.name;
+                }
+            }
+
+            orderEntry.list_of_items = itemList;
             orderEntry.total_price = (decimal)Session["total"];
             db.OrdersHistory.Add(orderEntry);
             db.SaveChanges();
@@ -158,7 +178,9 @@ namespace BulmaAndBullaFastFood.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            return View(db.OrdersHistory.ToList());
+            string userId = User.Identity.GetUserId();
+            return View(db.OrdersHistory.Where(x => x.user_Id == userId).ToList());
+            
         }
     }
 }

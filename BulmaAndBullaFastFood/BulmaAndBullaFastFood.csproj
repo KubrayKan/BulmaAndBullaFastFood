@@ -393,6 +393,7 @@
     <Content Include="Views\Restaurant\Payment.cshtml" />
     <Content Include="Views\Restaurant\PaymentInfo.cshtml" />
     <Content Include="Views\Restaurant\OrderComplete.cshtml" />
+    <Content Include="Views\Restaurant\PreviousOrders.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
